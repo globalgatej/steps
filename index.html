@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/github-dark.min.css">
+
+    <style>
+        .dance {
+            animation: dance 0.6s steps(1) infinite;
+        }
+
+        @keyframes dance {
+            0% {
+                transform: scaleX(1);
+            }
+
+            50% {
+                transform: scaleX(-1);
+            }
+
+            100% {
+                transform: scaleX(1);
+            }
+        }
+
+        .splice {
+            width: 200px;
+            height: 400px;
+            animation: splice 2s steps(1) infinite;
+            background: url(img/splice.jpg) no-repeat 0 0;
+            background-size: 600px auto;
+        }
+
+        @keyframes splice {
+            0% {
+                background-position: 0 0;
+            }
+
+            33.33% {
+                background-position: -200px 0;
+            }
+
+            66.66% {
+                background-position: -400px 0;
+            }
+        }
+
+        .catimg {
+            transform: scale(0);
+            transform-origin: left top;
+        }
+
+        .catimg.showcat {
+            transform: scale(1);
+            transition: 1s transform;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="bg-light">
+
+        <div class="container">
+            <div class="row">
+                <div class="col py-5">
+                    <h1>Stepsを使ったCSSアニメーション</h1>
+                    <p>
+                        CSSのtransition-timing-funciton、animation-timing-funcitonにはstepsという関数を指定することができ、このstepsを使えばコマ送りでアニメーションを実行させることができます。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="container">
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2>1枚の画像を動かす</h2>
+                <p><a href="https://www.youtube.com/watch?v=Ja9qmYjXk6U" target="_blank">ナユタン星人のMV</a>みたいな</p>
+            </div>
+
+
+            <div class="col">
+                <img src="img/dance.png" width="200" alt="" class="dance">
+            </div>
+            <div class="col">
+                <pre>
+                    <code class="css">.dance {
+    animation: dance 0.6s steps(1) infinite;
+}
+
+@keyframes dance {
+    0% {
+        transform: scaleX(1);
+    }
+
+    50% {
+        transform: scaleX(-1);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}</code>
+                </pre>
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2>つながった1枚の画像を少しずつずらして表示させる</h2>
+                <p>ストップモーションアニメみたいな</p>
+            </div>
+
+
+            <div class="col">
+
+                <div class="splice">
+
+                </div>
+
+
+                <div>
+                    <p>
+                        以下の画像を少しずつずらしてアニメーションにしています。
+                    </p>
+                    <img src="img/splice.jpg" alt="" class="img-fluid">
+                </div>
+
+
+
+            </div>
+            <div class="col">
+                <pre>
+                    <code class="css">.splice {
+    width: 200px;
+    height: 400px;
+    animation: splice 2s steps(1) infinite;
+    background: url(img/splice.jpg) no-repeat 0 0;
+    background-size: 600px auto;
+}
+
+@keyframes splice {
+    0% {
+        background-position: 0 0;
+    }
+
+    33.33% {
+        background-position: -200px 0;
+    }
+
+    66.66% {
+        background-position: -400px 0;
+    }
+}</code>
+                </pre>
+            </div>
+        </div>
+
+
+
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2>アニメーション無効オプションとして使う</h2>
+                <p>アニメーション処理が嫌いな人やスペックの低い端末向けのオプション機能として</p>
+            </div>
+
+
+            <div class="col">
+
+                <div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="useAnimation">
+                        <label class="form-check-label" for="useAnimation">
+                            アニメーションを使用しない
+                        </label>
+                    </div>
+
+                    <div class="mb-3"><button class="button btn btn-primary btn-showcat">クリックすると画像を表示</button></div>
+
+                    <div><img src="img/cat.jpg" alt="" class="img-fluid catimg"></div>
+
+                </div>
+
+            </div>
+            <div class="col">
+                <pre>
+                    <code class="css">.catimg {
+    transform: scale(0);
+    transform-origin: left top;
+}
+
+.catimg.showcat {
+    transform: scale(1);
+    transition: 1s transform;
+}</code>
+                </pre>
+
+                <p>
+                    ボタンによるアニメーション処理のためにJavascriptも使用しています。
+                </p>
+
+                <pre><code class="js">$('.btn-showcat').on('click', function () {
+    var $img = $('.catimg')
+    $img.removeClass('showcat');
+    setTimeout(function () {
+        $img.addClass('showcat');
+    }, 100)
+
+    return false;
+})
+
+$('#useAnimation').on('change', function () {
+    var $img = $('.catimg');
+    if ($(this).is(':checked')) {
+        $img.css({
+            'transition-timing-function': 'steps(1)',
+            'transition-delay': '0s'
+        })
+    } else {
+        $img.css({
+            'transition-timing-function': '',
+            'transition-delay': ''
+        })
+
+    }
+})</code></pre>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+    <script>
+        $('.btn-showcat').on('click', function () {
+            var $img = $('.catimg')
+            $img.removeClass('showcat');
+            setTimeout(function () {
+                $img.addClass('showcat');
+            }, 100)
+
+            return false;
+        })
+
+        $('#useAnimation').on('change', function () {
+            var $img = $('.catimg');
+            if ($(this).is(':checked')) {
+                $img.css({
+                    'transition-timing-function': 'steps(1)',
+                    'transition-delay': '0s'
+                })
+            } else {
+                $img.css({
+                    'transition-timing-function': '',
+                    'transition-delay': ''
+                })
+
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>
